@@ -2,7 +2,9 @@ const express = require('express');
 const route = express.Router();
 const multer = require('multer');
 const path = require('path');
-const shelljs=require('shelljs');
+//const shelljs=require('shelljs');
+//const testFunction=require('../test');
+const script=require('../test');
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -41,15 +43,20 @@ route.post('/upload',uploading,(req,res)=>{
             res.send("Error Occurred while upload ");
         }
         else{
-        //  console.log(req.file);
+            console.log(req.file.filename);
+            var filename='./uploads/'+req.file.filename;
+            console.log('b4 res&&script');
             res.send("File Uploaded Done....");
+            console.log('after res.send');
+            script(filename,req.file.filename);     
         }
     })
 });
 
-route.post('/stream',(req,res)=>{
+route.get('/stream',(req,res)=>{
   console.log(req.data);
-  res.send('streaming mpd');
+  console.log(__dirname);
+ // res.sendFile('SampleVideo_1280x720_1mb.mp4.mpd',{root: __dirname+'manifest\'});
 });
 
 
